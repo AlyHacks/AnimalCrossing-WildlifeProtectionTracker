@@ -8,10 +8,13 @@ import adafruit_vl53l1x
 import numpy as np
 from gpiozero import LED
 from collections import defaultdict, deque
+from gtts import gTTS
+import os
+from io import BytesIO
+from pygame import mixer
+
 
 loopcount = 0
-ledl = LED(5)
-ledr = LED(4)
 
 #creation of buffers and the fused dictionary to store the matched rgb and sensor frames
 camera_buffer_dict = defaultdict(lambda: deque(maxlen=3))
@@ -46,6 +49,13 @@ picam2.configure(
 
 picam2.start()
 time.sleep(2)
+pygame.mixer.init()
+
+def sound():
+    sound = pygame.mixer.Sound("beep.wav")
+    playing = sound.play()
+    while playing.get_busy():
+        pygame.time.delay(100)
 
 
 def sensor_reading(sensor):
@@ -135,7 +145,7 @@ def object_localization(correct_frame):
                     
 
 
-def led_buzzer_control(cx, distance, ledr, ledl):
+def audio(cx):
     x = cx/640   #the position of object is a fraction from 0 to 1, 0 is left#turns on the led for a time based on distance
     if (cx>0 and cx<320) and distance < 1000:
         print("left")
@@ -183,14 +193,11 @@ while True:
         if object_detected(correct_frame) is True:
             # return position index from object localization
             cx = object_localization(correct_frame)
-            led_buzzer_control(cx, distance_latest, ledr, ledl)
+            audio(cx)
         else:
-            #both buzzers output buzzzing frequency relative to distance
-            ledr.blink(ontime=0.1, off_time=distance_latest/1000)
-            ledl.blink(ontime=0.1, off_time=distance_latest/1000)
+            continue
     else:
-        ledr.off()
-        ledl.off()
+        continue
 
     if loopcount*3 >= 555:
         break
