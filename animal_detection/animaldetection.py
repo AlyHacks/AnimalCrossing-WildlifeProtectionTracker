@@ -53,7 +53,6 @@ time.sleep(2)
 
 def startpygame():
     mixer.init()
-    mp3audio = BytesIO()
 
 def sensor_reading(sensor):
     sensor.start_ranging()
@@ -170,6 +169,7 @@ def audio(cx, animal, distance): #FIX TO AUDIO
             pass    
 
 startpygame()
+mp3audio = BytesIO()
 while True:
     loopcount += 1
     #capture rgb and sensor reading
