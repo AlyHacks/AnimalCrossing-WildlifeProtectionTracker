@@ -20,7 +20,7 @@ loopcount = 0
 camera_buffer_dict = defaultdict(lambda: deque(maxlen=3))
 camera_buffer = []
 camera_buffer = deque(maxlen=3)
-distance_latest = None
+distance_latest = 0
 fused = {"timestamp_c": 0, "timestamp_s": 0,  "object": 0, "distance": 0}
 compare = []
 compare = deque(maxlen=3)
