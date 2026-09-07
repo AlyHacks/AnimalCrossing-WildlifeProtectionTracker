@@ -146,6 +146,8 @@ def audio(cx, animal, distance): #FIX TO AUDIO
         text = f"{animal} detected on the right side"
     else:
         text = "animal not detected"
+    mp3audio = BytesIO()
+
     try:
         tts = gTTS(text=text, lang='en', tld='us')
         tts.write_to_fp(mp3audio)
@@ -161,7 +163,6 @@ def audio(cx, animal, distance): #FIX TO AUDIO
 
           
 startpygame()
-mp3audio = BytesIO()
 
 while True:
     loopcount += 1
