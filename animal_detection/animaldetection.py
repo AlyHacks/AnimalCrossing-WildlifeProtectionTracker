@@ -147,6 +147,8 @@ def audio(cx, animal, distance): #FIX TO AUDIO
         mp3audio.seek(0)
         mixer.music.load(mp3audio)
         mixer.music.play()
+        while mixer.music.get_busy():
+            pass
     elif (cx>=320 and cx<640) and distance < 1000:
         text = f"{animal} detected on the right side"
         tts = gTTS(text=text, lang='en', tld='us')
@@ -154,6 +156,8 @@ def audio(cx, animal, distance): #FIX TO AUDIO
         mp3audio.seek(0)
         mixer.music.load(mp3audio)
         mixer.music.play()
+        while mixer.music.get_busy():
+            pass
     else:
         text = "animal not detected"
         tts = gTTS(text=text, lang='en', tld='us')
@@ -161,6 +165,8 @@ def audio(cx, animal, distance): #FIX TO AUDIO
         mp3audio.seek(0)
         mixer.music.load(mp3audio)
         mixer.music.play()
+        while mixer.music.get_busy():
+            pass    
 
 startpygame()
 while True:
