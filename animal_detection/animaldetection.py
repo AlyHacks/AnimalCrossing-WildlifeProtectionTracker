@@ -170,6 +170,7 @@ def audio(cx, animal, distance): #FIX TO AUDIO
 
 startpygame()
 mp3audio = BytesIO()
+
 while True:
     loopcount += 1
     #capture rgb and sensor reading
