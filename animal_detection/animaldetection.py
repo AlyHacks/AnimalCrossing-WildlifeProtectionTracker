@@ -36,7 +36,7 @@ sensor.timing_budget = 50
 
 # need to use picamera2 instead of cv2.VideoCapture(0) since raspi only supports picamera2 for libcamera camera access
 picam2 = Picamera2() 
-model = YOLO('yolov8n.pt')
+model = YOLO('yolov26n.pt')
 
 
 
