@@ -27,6 +27,7 @@ compare = deque(maxlen=3)
 correct_index = 0
 frame_boundbox = []
 last_ten_box = []
+animal = None
 
 #sensor setup
 i2c = busio.I2C(board.SCL, board.SDA)
