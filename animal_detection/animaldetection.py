@@ -153,7 +153,13 @@ def audio(cx, animal, distance): #FIX TO AUDIO
         mixer.music.load(mp3audio)
         mixer.music.play()
         while mixer.music.get_busy():
-            pass    
+
+    finally:
+        mixer.music.unload()
+        mp3audio.close()
+
+
+          
 startpygame()
 mp3audio = BytesIO()
 
