@@ -49,14 +49,10 @@ picam2.configure(
 
 picam2.start()
 time.sleep(2)
-pygame.mixer.init()
 
-def sound():
-    sound = pygame.mixer.Sound("beep.wav")
-    playing = sound.play()
-    while playing.get_busy():
-        pygame.time.delay(100)
-
+def startpygame():
+    pygame.mixer.init()
+    mp3audio = BytesIO()
 
 def sensor_reading(sensor):
     sensor.start_ranging()
@@ -86,7 +82,6 @@ def timestamp_compare(timestamp_c, timestamp_s, compare, camera_buffer_dict, dis
             correct_frame = camera_buffer_dict[correct_timestamp] #finds the respective frame to the correct timestamp
 
     return correct_timestamp, timestamp_s, correct_frame, distance_latest
-
 
 def dictionary_update(correct_timestamp, timestamp_s, correct_frame, distance_latest):
     fused.update({"timestamp_c": correct_timestamp, "timestamp_s": timestamp_s, "object": correct_frame, "distance": distance_latest}) #update the fused dictionary with the correct value
@@ -143,23 +138,26 @@ def object_localization(correct_frame):
 
     return cx
                     
-
-
-def audio(cx):
+def audio(cx, animal, distance): #FIX TO AUDIO
     x = cx/640   #the position of object is a fraction from 0 to 1, 0 is left#turns on the led for a time based on distance
     if (cx>0 and cx<320) and distance < 1000:
-        print("left")
-        ledr.off()
-        ledl.blink(on_time=0.25, off_time=(distance*x)/100)
+        text = f"{animal} detected on the left side"
+        tts = gTTS(text=text, lang='en', tld='us')
+        tts.write_to_fp(mp3audio)
+        mp3audio.seek(0)
+        mixer.music.load(mp3audio)
+        mixer.music.play()
     elif (cx>=320 and cx<640) and distance < 1000:
-        print("right")
-        ledl.off()
-        ledr.blink(on_time=0.25, off_time=(distance/100*x))
+        text = f"{animal} detected on the right side"
+        tts = gTTS(text=text, lang='en', tld='us')
+        tts.write_to_fp(mp3audio)
+        mp3audio.seek(0)
+        mixer.music.load(mp3audio)
+        mixer.music.play()
     else:
-        ledr.off()
-        ledl.off()
+        continue
 
-
+startpygame()
 while True:
     loopcount += 1
     #capture rgb and sensor reading
@@ -193,7 +191,7 @@ while True:
         if object_detected(correct_frame) is True:
             # return position index from object localization
             cx = object_localization(correct_frame)
-            audio(cx)
+            audio(cx, animal, distance_latest)
         else:
             continue
     else:
