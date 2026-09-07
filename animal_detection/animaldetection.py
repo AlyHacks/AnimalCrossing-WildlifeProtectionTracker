@@ -52,7 +52,7 @@ picam2.start()
 time.sleep(2)
 
 def startpygame():
-    pygame.mixer.init()
+    mixer.init()
     mp3audio = BytesIO()
 
 def sensor_reading(sensor):
