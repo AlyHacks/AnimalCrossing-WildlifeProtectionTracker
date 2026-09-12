@@ -28,6 +28,7 @@ correct_index = 0
 frame_boundbox = []
 last_ten_box = []
 animal = fused["object"]
+animal_det = False
 
 #sensor setup
 i2c = busio.I2C(board.SCL, board.SDA)
@@ -104,6 +105,7 @@ def object_localization(correct_frame):
     for results in camera_buffer_dict.values():#iterates througuh the correct camera frame
         for result in results:
             if len(result.boxes) > 0:
+                animal_det = True  #box detected, object detected
                 print("1") #box detected, object detected
                 for box in result.boxes:
                     class_id = int(box.cls[0])
@@ -134,7 +136,8 @@ def object_localization(correct_frame):
 
 
             else:
-                print("0")     #no box detected, no object detected
+                print("0")
+                animal_det = False     #no box detected, no object detected
 
     return cx
                     
