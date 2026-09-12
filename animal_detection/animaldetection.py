@@ -204,8 +204,6 @@ while True:
     else:
         continue
 
-    if loopcount*3 >= 555:
-        break
     if cv2.waitKey(1) == ord('q'):
         print("error")
         break
