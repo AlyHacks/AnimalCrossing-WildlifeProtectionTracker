@@ -141,9 +141,9 @@ def object_localization(correct_frame, animal_det):
                     
 def audio(cx, animal, animal_det, distance): #FIX TO AUDIO
     x = cx/640   #the position of object is a fraction from 0 to 1, 0 is left#turns on the led for a time based on distance
-    if (cx>0 and cx<320) and distance < 1000 and animal_det is True:
+    if (cx>0 and cx<320) and animal_det is True:
         text = f"{animal} detected on the left side"
-    elif (cx>=320 and cx<640) and distance < 1000 and animal_det is True:
+    elif (cx>=320 and cx<640) and animal_det is True:
         text = f"{animal} detected on the right side"
     else:
         animal_det = False
