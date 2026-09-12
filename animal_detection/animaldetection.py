@@ -149,6 +149,7 @@ def audio(cx, animal, animal_det, distance): #FIX TO AUDIO
         text = f"{animal} detected on the right side"
     else:
         animal_det = False
+        text = ''
     mp3audio = BytesIO()
 
     try:
