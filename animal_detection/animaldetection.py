@@ -141,7 +141,7 @@ def object_localization(correct_frame):
 
     return cx
                     
-def audio(cx, animal, distance): #FIX TO AUDIO
+def audio(cx, animal, animal_det, distance): #FIX TO AUDIO
     x = cx/640   #the position of object is a fraction from 0 to 1, 0 is left#turns on the led for a time based on distance
     if (cx>0 and cx<320) and distance < 1000 and animal_det is True:
         text = f"{animal} detected on the left side"
@@ -201,7 +201,7 @@ while True:
         if object_detected(correct_frame) is True:
             # return position index from object localization
             cx = object_localization(correct_frame)
-            audio(cx, animal, distance_latest)
+            audio(cx, animal, animal_det, distance_latest)
         else:
             continue
     else:
