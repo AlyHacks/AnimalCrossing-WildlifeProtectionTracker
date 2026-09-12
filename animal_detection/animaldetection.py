@@ -57,7 +57,7 @@ def startpygame():
 
 def sensor_reading(sensor):
     sensor.start_ranging()
-    distance = sensor.distance #LiDAR frame/distance
+    distance = sensor.distance/100 #LiDAR frame/distance
     timestamp_s = time.monotonic_ns() #obtain the timestamp
     #distance = starting() #Don't know if this is necessary
     return distance, timestamp_s
