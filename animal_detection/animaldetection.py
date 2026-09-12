@@ -148,7 +148,7 @@ def audio(cx, animal, distance): #FIX TO AUDIO
     elif (cx>=320 and cx<640) and distance < 1000 and animal_det is True:
         text = f"{animal} detected on the right side"
     else:
-        text = "animal not detected"
+        animal_det = False
     mp3audio = BytesIO()
 
     try:
