@@ -149,21 +149,21 @@ def audio(cx, animal, animal_det, distance): #FIX TO AUDIO
         text = f"{animal} detected on the right side"
     else:
         animal_det = False
-        text = ''
+        text = 'none'
     mp3audio = BytesIO()
+    if animal_det is True:
+        try:
+            tts = gTTS(text=text, lang='en', tld='us')
+            tts.write_to_fp(mp3audio)
+            mp3audio.seek(0)
+            mixer.music.load(mp3audio)
+            mixer.music.play()
+            while mixer.music.get_busy():
+                pass
 
-    try:
-        tts = gTTS(text=text, lang='en', tld='us')
-        tts.write_to_fp(mp3audio)
-        mp3audio.seek(0)
-        mixer.music.load(mp3audio)
-        mixer.music.play()
-        while mixer.music.get_busy():
-            pass
-
-    finally:
-        mixer.music.unload()
-        mp3audio.close()
+        finally:
+            mixer.music.unload()
+            mp3audio.close()
 
 
           
