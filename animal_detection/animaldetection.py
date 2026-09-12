@@ -99,14 +99,13 @@ def object_detected(correct_frame):
     else:
         return False
 
-def object_localization(correct_frame):
+def object_localization(correct_frame, animal_det):
     cx = 0
     #position function
     for results in camera_buffer_dict.values():#iterates througuh the correct camera frame
         for result in results:
             if len(result.boxes) > 0:
                 animal_det = True  #box detected, object detected
-                print("1") #box detected, object detected
                 for box in result.boxes:
                     class_id = int(box.cls[0])
                     class_name = model.names[class_id]
@@ -136,10 +135,9 @@ def object_localization(correct_frame):
 
 
             else:
-                print("0")
                 animal_det = False     #no box detected, no object detected
 
-    return cx
+    return cx, animal_det
                     
 def audio(cx, animal, animal_det, distance): #FIX TO AUDIO
     x = cx/640   #the position of object is a fraction from 0 to 1, 0 is left#turns on the led for a time based on distance
@@ -151,7 +149,9 @@ def audio(cx, animal, animal_det, distance): #FIX TO AUDIO
         animal_det = False
         text = 'none'
     mp3audio = BytesIO()
+
     if animal_det is True:
+
         try:
             tts = gTTS(text=text, lang='en', tld='us')
             tts.write_to_fp(mp3audio)
@@ -201,7 +201,8 @@ while True:
     if distance_check(distance_latest) is True:
         if object_detected(correct_frame) is True:
             # return position index from object localization
-            cx = object_localization(correct_frame)
+            cx, animal_det = object_localization(correct_frame, animal_det)
+            animal = fused["object"]
             audio(cx, animal, animal_det, distance_latest)
         else:
             continue
